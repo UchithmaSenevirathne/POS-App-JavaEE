@@ -1,17 +1,18 @@
 package lk.ijse.posbackend.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public interface CrudDAO<T> extends SuperDAO {
-    boolean save(T dto) throws SQLException;
+    boolean save(Connection connection,T dto) throws SQLException;
 
-    List<T> getAll() throws SQLException;
+    List<T> getAll(Connection connection) throws SQLException;
 
-    T search(String id) throws SQLException;
+    T search(Connection connection,String id) throws SQLException;
 
-    boolean update(T dto) throws SQLException;
+    boolean update(Connection connection,T dto) throws SQLException;
 
-    boolean delete(String id) throws SQLException;
+    boolean delete(Connection connection,String id) throws SQLException;
 
 }
