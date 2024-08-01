@@ -6,10 +6,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Connection;
+
 @WebServlet(urlPatterns = "/customer", loadOnStartup = 2)
 public class Customer extends HttpServlet {
+    Connection connection;
+
+    static Logger logger = LoggerFactory.getLogger(Customer.class);
+
     @Override
     public void init() throws ServletException {
 
