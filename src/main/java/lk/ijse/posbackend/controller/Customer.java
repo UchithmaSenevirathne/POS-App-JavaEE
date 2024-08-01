@@ -1,11 +1,16 @@
 package lk.ijse.posbackend.controller;
 
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.posbackend.bo.BOFactory;
+import lk.ijse.posbackend.bo.custom.CustomerBO;
+import lk.ijse.posbackend.dto.CutomerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +26,8 @@ public class Customer extends HttpServlet {
     Connection connection;
 
     static Logger logger = LoggerFactory.getLogger(Customer.class);
+
+    CustomerBO customerBO = (CustomerBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     @Override
     public void init() throws ServletException {
@@ -46,7 +53,30 @@ public class Customer extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        try (var writer = resp.getWriter()) {
+            Jsonb jsonb = JsonbBuilder.create();
+            CutomerDTO cutomerDTO = jsonb.fromJson(req.getReader(), CutomerDTO.class);
+            if(false){
+                return;
+            }
+            //save data to the db
+            boolean isSaved = customerBO.saveCustomer(cutomerDTO,connection);
+
+            if(isSaved){
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+            }else{
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to save");
+            }
+//            writer.write(studentBOIMPL.saveStudent(student,connection));
+//            resp.setStatus(HttpServletResponse.SC_CREATED);
+
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
     }
 
     @Override
