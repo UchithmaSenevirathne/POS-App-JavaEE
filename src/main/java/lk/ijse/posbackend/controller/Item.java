@@ -75,6 +75,24 @@ public class Item extends HttpServlet {
     }
 
     @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try (var writer = resp.getWriter()){
+            Jsonb jsonb = JsonbBuilder.create();
+            ItemDTO itemDTO = jsonb.fromJson(req.getReader(), ItemDTO.class);
+
+            if (itemBO.updateItem(itemDTO, connection)){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else {
+                writer.write("update failed");
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (var writer = resp.getWriter()){
             var id = req.getParameter("id");
@@ -84,7 +102,7 @@ public class Item extends HttpServlet {
                 writer.write("delete successfully");
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }else {
-                System.out.println("Failed to delete customer with ID: " + id); // Debug statement
+                System.out.println("Failed to delete item with ID: " + id); // Debug statement
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }catch (Exception e){
