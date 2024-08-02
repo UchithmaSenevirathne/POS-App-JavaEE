@@ -95,7 +95,21 @@ public class Customer extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        try (var writer = resp.getWriter()){
+            var id = req.getParameter("id");
+            Jsonb jsonb = JsonbBuilder.create();
+            CutomerDTO cutomerDTO = jsonb.fromJson(req.getReader(), CutomerDTO.class);
+
+            if (customerBO.updateCustomer(cutomerDTO, connection)){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else {
+                writer.write("update failed");
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

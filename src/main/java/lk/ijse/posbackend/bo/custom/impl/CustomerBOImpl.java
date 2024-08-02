@@ -16,7 +16,11 @@ public class CustomerBOImpl implements CustomerBO {
     CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
     @Override
     public boolean updateCustomer(CutomerDTO dto, Connection connection) throws SQLException {
-        return false;
+        return customerDAO.update(connection,new CustomerEntity(dto.getId(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getEmail(),
+                dto.getContact()));
     }
 
     @Override

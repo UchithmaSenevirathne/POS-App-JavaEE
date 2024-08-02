@@ -49,7 +49,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean update(Connection connection,CustomerEntity entity) throws SQLException {
-        return false;
+        return SQLUtil.execute(connection,
+                "UPDATE customer SET name = ?, address = ?, email = ?, contact = ?  WHERE id = ?",
+                entity.getName(),
+                entity.getAddress(),
+                entity.getEmail(),
+                entity.getContact(),
+                entity.getId());
     }
 
     @Override

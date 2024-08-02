@@ -4,3 +4,5 @@
 11:25:00.323 [RMI TCP Connection(2)-127.0.0.1] DEBUG l.i.posbackend.controller.Customer - connection initialized
 11:25:36.037 [RMI TCP Connection(2)-127.0.0.1] INFO  l.i.posbackend.controller.Customer - Init method invoked
 11:25:36.511 [RMI TCP Connection(2)-127.0.0.1] DEBUG l.i.posbackend.controller.Customer - connection initialized
+11:49:35.399 [RMI TCP Connection(2)-127.0.0.1] INFO  l.i.posbackend.controller.Customer - Init method invoked
+11:49:35.990 [RMI TCP Connection(2)-127.0.0.1] DEBUG l.i.posbackend.controller.Customer - connection initialized
