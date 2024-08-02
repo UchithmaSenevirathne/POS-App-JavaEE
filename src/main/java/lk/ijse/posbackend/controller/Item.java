@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/item", loadOnStartup = 2)
 public class Item extends HttpServlet {
@@ -87,6 +88,24 @@ public class Item extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try(var writer = resp.getWriter()) {
+            Jsonb jsonb = JsonbBuilder.create();
+            resp.setContentType("application/json");
+
+            List<ItemDTO> items = itemBO.getAllItems(connection);
+
+            if (items != null){
+                jsonb.toJson(items, writer);
+            }else{
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "no items found");
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
