@@ -60,6 +60,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean delete(Connection connection,String id) throws SQLException {
-        return false;
+        return SQLUtil.execute(connection,
+                "DELETE FROM customer WHERE id = ?",
+                id);
     }
 }
