@@ -50,6 +50,13 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public CutomerDTO getOneCustomer(Connection connection, String data) {
-        return null;
+        CustomerEntity customer = customerDAO.getOneCustomer(connection, data);
+        return new CutomerDTO(
+                customer.getId(),
+                customer.getName(),
+                customer.getAddress(),
+                customer.getEmail(),
+                customer.getContact()
+        );
     }
 }
