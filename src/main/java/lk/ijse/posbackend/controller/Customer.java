@@ -84,8 +84,6 @@ public class Customer extends HttpServlet {
             }else{
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to save");
             }
-//            writer.write(studentBOIMPL.saveStudent(student,connection));
-//            resp.setStatus(HttpServletResponse.SC_CREATED);
 
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -96,7 +94,6 @@ public class Customer extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (var writer = resp.getWriter()){
-            var id = req.getParameter("id");
             Jsonb jsonb = JsonbBuilder.create();
             CutomerDTO cutomerDTO = jsonb.fromJson(req.getReader(), CutomerDTO.class);
 
@@ -114,6 +111,17 @@ public class Customer extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        try (var writer = resp.getWriter()){
+            var id = req.getParameter("id");
+
+            if (customerBO.deleteCustomer(id,connection)){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else {
+                writer.write("delete successfully");
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
