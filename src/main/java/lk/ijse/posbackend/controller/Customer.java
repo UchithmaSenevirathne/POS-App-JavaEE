@@ -113,15 +113,18 @@ public class Customer extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (var writer = resp.getWriter()){
             var id = req.getParameter("id");
+            System.out.println("ID to delete: " + id);  // Debug statement
 
             if (customerBO.deleteCustomer(id,connection)){
+                writer.write("delete successfully");
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }else {
-                writer.write("delete successfully");
+                System.out.println("Failed to delete customer with ID: " + id); // Debug statement
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }catch (Exception e){
             e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
