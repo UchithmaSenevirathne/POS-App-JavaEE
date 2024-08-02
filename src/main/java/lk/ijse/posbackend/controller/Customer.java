@@ -49,19 +49,40 @@ public class Customer extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try(var writer = resp.getWriter()) {
-            Jsonb jsonb = JsonbBuilder.create();
-            resp.setContentType("application/json");
+        String function = req.getParameter("get");
+        
+        if(function.equals("All")) {
+            try (var writer = resp.getWriter()) {
+                Jsonb jsonb = JsonbBuilder.create();
+                resp.setContentType("application/json");
 
-            List<CutomerDTO> customers = customerBO.getAllCustomers(connection);
+                List<CutomerDTO> customers = customerBO.getAllCustomers(connection);
 
-            if (customers != null){
-                jsonb.toJson(customers, writer);
-            }else{
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "no customers found");
+                if (customers != null) {
+                    jsonb.toJson(customers, writer);
+                } else {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "no customers found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        } else if (function.equals("ByOneData")) {
+            try (var writer = resp.getWriter()) {
+                Jsonb jsonb = JsonbBuilder.create();
+                resp.setContentType("application/json");
+
+                var data = req.getParameter("data");
+
+                CutomerDTO customer = customerBO.getOneCustomer(connection, data);
+
+                if (customer != null) {
+                    jsonb.toJson(customer, writer);
+                } else {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "no customer found in this data");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
