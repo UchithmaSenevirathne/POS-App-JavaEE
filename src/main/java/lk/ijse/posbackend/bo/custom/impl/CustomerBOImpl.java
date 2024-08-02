@@ -47,16 +47,4 @@ public class CustomerBOImpl implements CustomerBO {
     public boolean deleteCustomer(String id, Connection connection) throws SQLException {
         return false;
     }
-
-    @Override
-    public CutomerDTO getOneCustomer(Connection connection, String data) {
-        CustomerEntity customer = customerDAO.getOneCustomer(connection, data);
-        return new CutomerDTO(
-                customer.getId(),
-                customer.getName(),
-                customer.getAddress(),
-                customer.getEmail(),
-                customer.getContact()
-        );
-    }
 }

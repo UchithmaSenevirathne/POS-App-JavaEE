@@ -1,5 +1,7 @@
 package lk.ijse.posbackend.dao;
 
+import lk.ijse.posbackend.entity.CustomerEntity;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,5 +16,4 @@ public interface CrudDAO<T> extends SuperDAO {
     boolean update(Connection connection,T dto) throws SQLException;
 
     boolean delete(Connection connection,String id) throws SQLException;
-
 }
