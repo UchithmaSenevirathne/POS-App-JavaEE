@@ -8,6 +8,7 @@ import lk.ijse.posbackend.entity.CustomerEntity;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
@@ -29,7 +30,17 @@ public class CustomerBOImpl implements CustomerBO {
 
     @Override
     public List<CutomerDTO> getAllCustomers(Connection connection) throws SQLException {
-        return null;
+        List<CustomerEntity> customerEntities = customerDAO.getAll(connection);
+        List<CutomerDTO> cutomerDTOS = new ArrayList<>();
+
+        for (CustomerEntity customer : customerEntities){
+            cutomerDTOS.add(new CutomerDTO(customer.getId(),
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getEmail(),
+                    customer.getContact()));
+        }
+        return cutomerDTOS;
     }
 
     @Override

@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/customer", loadOnStartup = 2)
 public class Customer extends HttpServlet {
@@ -48,7 +49,20 @@ public class Customer extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        try(var writer = resp.getWriter()) {
+            Jsonb jsonb = JsonbBuilder.create();
+            resp.setContentType("application/json");
+
+            List<CutomerDTO> customers = customerBO.getAllCustomers(connection);
+
+            if (customers != null){
+                jsonb.toJson(customers, writer);
+            }else{
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "no customers found");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

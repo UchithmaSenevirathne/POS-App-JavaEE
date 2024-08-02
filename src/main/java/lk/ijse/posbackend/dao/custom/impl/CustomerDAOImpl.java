@@ -5,7 +5,9 @@ import lk.ijse.posbackend.dao.custom.CustomerDAO;
 import lk.ijse.posbackend.entity.CustomerEntity;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
@@ -23,7 +25,21 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public List<CustomerEntity> getAll(Connection connection) throws SQLException {
-        return null;
+        List<CustomerEntity> customers = new ArrayList<>();
+
+        ResultSet resultSet = SQLUtil.execute(connection,"SELECT * FROM customer");
+
+        while (resultSet.next()){
+            String cus_id = resultSet.getString(1);
+            String cus_name = resultSet.getString(2);
+            String cus_address = resultSet.getString(3);
+            String cus_email = resultSet.getString(4);
+            String cus_contact = resultSet.getString(5);
+
+            var entity = new CustomerEntity(cus_id, cus_name, cus_address, cus_email, cus_contact);
+            customers.add(entity);
+        }
+        return customers;
     }
 
     @Override
