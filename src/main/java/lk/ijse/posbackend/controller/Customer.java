@@ -56,7 +56,7 @@ public class Customer extends HttpServlet {
         if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        try (var writer = resp.getWriter()) {
+        try {
             Jsonb jsonb = JsonbBuilder.create();
             CutomerDTO cutomerDTO = jsonb.fromJson(req.getReader(), CutomerDTO.class);
             if(false){
