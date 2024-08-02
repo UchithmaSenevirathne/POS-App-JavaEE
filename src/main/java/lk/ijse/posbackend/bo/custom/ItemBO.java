@@ -1,7 +1,6 @@
 package lk.ijse.posbackend.bo.custom;
 
 import lk.ijse.posbackend.bo.SuperBO;
-import lk.ijse.posbackend.dto.CutomerDTO;
 import lk.ijse.posbackend.dto.ItemDTO;
 
 import java.sql.Connection;
