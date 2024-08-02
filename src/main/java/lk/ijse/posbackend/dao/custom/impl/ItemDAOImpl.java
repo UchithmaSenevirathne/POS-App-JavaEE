@@ -32,7 +32,12 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean update(Connection connection, ItemEntity entity) throws SQLException {
-        return false;
+        return SQLUtil.execute(connection,
+                "UPDATE item SET name = ?, description = ?, unit_price = ? WHERE id = ?",
+                entity.getName(),
+                entity.getDescription(),
+                entity.getUnit_price(),
+                entity.getId());
     }
 
     @Override
