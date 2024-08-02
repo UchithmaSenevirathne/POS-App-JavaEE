@@ -1,5 +1,6 @@
 package lk.ijse.posbackend.dao.custom.impl;
 
+import lk.ijse.posbackend.dao.SQLUtil;
 import lk.ijse.posbackend.dao.custom.ItemDAO;
 import lk.ijse.posbackend.entity.ItemEntity;
 
@@ -10,7 +11,13 @@ import java.util.List;
 public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean save(Connection connection, ItemEntity entity) throws SQLException {
-        return false;
+        return SQLUtil.execute(connection,
+                "INSERT INTO item VALUES(?, ?, ?, ?)",
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getUnit_price()
+        );
     }
 
     @Override

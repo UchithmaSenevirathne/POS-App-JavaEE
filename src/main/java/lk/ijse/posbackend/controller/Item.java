@@ -73,4 +73,23 @@ public class Item extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try (var writer = resp.getWriter()){
+            var id = req.getParameter("id");
+            System.out.println("ID to delete: " + id);  // Debug statement
+
+            if (itemBO.deleteItem(id,connection)){
+                writer.write("delete successfully");
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else {
+                System.out.println("Failed to delete customer with ID: " + id); // Debug statement
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
