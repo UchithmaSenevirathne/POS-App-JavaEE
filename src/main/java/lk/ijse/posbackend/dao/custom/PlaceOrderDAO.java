@@ -8,6 +8,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public interface PlaceOrderDAO extends SuperDAO {
-    boolean saveOrder(OrderEntity orderEntity, Connection connection) throws SQLException;
-    boolean saveOrderDetails(OrderDetailsEntity orderDetailsEntity, Connection connection) throws SQLException;
+    boolean saveOrder(OrderEntity order, Connection connection) throws SQLException;
+    boolean saveOrderDetails(OrderDetailsEntity orderDetails, Connection connection) throws SQLException;
 }

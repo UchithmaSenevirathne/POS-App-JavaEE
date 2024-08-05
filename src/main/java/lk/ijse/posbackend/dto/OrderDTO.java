@@ -1,5 +1,6 @@
 package lk.ijse.posbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO {
-    private String id;
+    @JsonProperty("oId")
+    private String oId;
+
+    @JsonProperty("date")
     private String date;
-    private Double total;
-    private List<OrderDetailsDTO> orderDetailsDTOS;
+
+    @JsonProperty("total")
+    private double total;
+
+    @JsonProperty("orderDetails")
+    private List<OrderDetailsDTO> orderDetails;
 }

@@ -10,23 +10,14 @@ import java.sql.SQLException;
 
 public class PlaceOrderDAOImpl implements PlaceOrderDAO {
     @Override
-    public boolean saveOrder(OrderEntity orderEntity, Connection connection) throws SQLException {
-        return SQLUtil.execute(connection,
-                "INSERT INTO order VALUES(?, ?, ?)",
-                orderEntity.getId(),
-                orderEntity.getDate(),
-                orderEntity.getTotal()
-        );
+    public boolean saveOrder(OrderEntity order, Connection connection) throws SQLException {
+        String query = "INSERT INTO orders (oId, date, total) VALUES (?, ?, ?)";
+        return SQLUtil.execute(connection, query, order.getOId(), order.getDate(), order.getTotal());
     }
 
     @Override
-    public boolean saveOrderDetails(OrderDetailsEntity orderDetailsEntity, Connection connection) throws SQLException {
-        return SQLUtil.execute(connection,
-                "INSERT INTO order_detail VALUES(?, ?, ?)",
-                orderDetailsEntity.getItemCode(),
-                orderDetailsEntity.getQty(),
-                orderDetailsEntity.getUnitPrice(),
-                orderDetailsEntity.getCustomerId()
-        );
+    public boolean saveOrderDetails(OrderDetailsEntity orderDetails, Connection connection) throws SQLException {
+        String query = "INSERT INTO order_details (itemId, qty, unitPrice, customerId) VALUES (?, ?, ?, ?)";
+        return SQLUtil.execute(connection, query, orderDetails.getItemId(), orderDetails.getQty(), orderDetails.getUnitPrice(), orderDetails.getCustomerId());
     }
 }

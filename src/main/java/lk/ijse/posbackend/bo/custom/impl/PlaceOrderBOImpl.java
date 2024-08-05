@@ -9,40 +9,48 @@ import lk.ijse.posbackend.entity.OrderDetailsEntity;
 import lk.ijse.posbackend.entity.OrderEntity;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
     PlaceOrderDAO placeOrderDAO = (PlaceOrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.PLACEORDER);
     @Override
-    public boolean placeOrder(OrderDetailsDTO orderDetailsDTO, OrderDTO orderDTO, Connection connection) {
-        List<OrderDetailsEntity> orderDetailsEntities = new ArrayList<>();
-        for (OrderDetailsDTO dto : orderDTO.getOrderDetailsDTOS()){
-            orderDetailsEntities.add(new OrderDetailsEntity(dto.getItemCode(),
-                    dto.getQty(),
-                    dto.getUnitPrice(),
-                    dto.getCustomerId()));
-        }
-        boolean saveOrder = placeOrderDAO.saveOrder(new OrderEntity(orderDTO.getId(),
-                orderDTO.getDate(),
-                orderDTO.getTotal(),
-                orderDetailsEntities),
-                connection
-        );
+    public boolean placeOrder(OrderDTO orderDTO, Connection connection) throws Exception {
+        try {
+            connection.setAutoCommit(false);
 
-        if (saveOrder){
-            boolean saveDetails = placeOrderDAO.saveOrderDetails(new OrderDetailsEntity(orderDetailsDTO.getItemCode(),
-                    orderDetailsDTO.getQty(),
-                    orderDetailsDTO.getUnitPrice(),
-                    orderDetailsDTO.getCustomerId()), connection);
+            OrderEntity order = new OrderEntity();
+            order.setOId(orderDTO.getOId());
+            order.setDate(orderDTO.getDate());
+            order.setTotal(orderDTO.getTotal());
 
-            if (saveDetails){
-                return true;
-            }else {
+            boolean orderSaved = placeOrderDAO.saveOrder(order, connection);
+            if (!orderSaved) {
+                connection.rollback();
                 return false;
             }
-        }else {
-            return false;
+
+            List<OrderDetailsDTO> orderDetailsList = orderDTO.getOrderDetails();
+            for (OrderDetailsDTO detailsDTO : orderDetailsList) {
+                OrderDetailsEntity orderDetails = new OrderDetailsEntity();
+                orderDetails.setItemId(detailsDTO.getItemId());
+                orderDetails.setQty(detailsDTO.getQty());
+                orderDetails.setUnitPrice(detailsDTO.getUnitPrice());
+                orderDetails.setCustomerId(detailsDTO.getCustomerId());
+
+                boolean orderDetailsSaved = placeOrderDAO.saveOrderDetails(orderDetails, connection);
+                if (!orderDetailsSaved) {
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
         }
     }
 }

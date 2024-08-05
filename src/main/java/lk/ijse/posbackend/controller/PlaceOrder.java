@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.posbackend.bo.BOFactory;
 import lk.ijse.posbackend.bo.custom.PlaceOrderBO;
 import lk.ijse.posbackend.dto.OrderDTO;
-import lk.ijse.posbackend.dto.OrderDetailsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,25 +19,20 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = "/placeOrder")
+@WebServlet(urlPatterns = "/placeOrder", loadOnStartup = 2)
 public class PlaceOrder extends HttpServlet {
-    PlaceOrderBO placeOrderBO = (PlaceOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PLACEORDER);
-
-    Connection connection;
-
-    static Logger logger = LoggerFactory.getLogger(PlaceOrder.class);
+    private PlaceOrderBO placeOrderBO = (PlaceOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PLACEORDER);
+    private Connection connection;
+    private static Logger logger = LoggerFactory.getLogger(PlaceOrder.class);
 
     @Override
     public void init() throws ServletException {
         logger.info("Init method invoked");
-
         try {
             var ctx = new InitialContext();
             DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/POS_Backend");
-
             this.connection = pool.getConnection();
             logger.debug("connection initialized", this.connection);
-
         } catch (SQLException | NamingException e) {
             logger.error("DB connection not init");
             e.printStackTrace();
@@ -46,27 +40,23 @@ public class PlaceOrder extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp){
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         try {
             ObjectMapper mapper = new ObjectMapper();
             OrderDTO orderDTO = mapper.readValue(req.getInputStream(), OrderDTO.class);
-            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
 
-            for (OrderDetailsDTO detailsDTO : orderDTO.getOrderDetailsDTOS()){
-                orderDetailsDTO.setItemCode(detailsDTO.getItemCode());
-                orderDetailsDTO.setQty(detailsDTO.getQty());
-                orderDetailsDTO.setUnitPrice(detailsDTO.getUnitPrice());
-                orderDetailsDTO.setCustomerId(detailsDTO.getCustomerId());
-            }
+            boolean saveOrder = placeOrderBO.placeOrder(orderDTO, connection);
 
-            boolean saveOrder = placeOrderBO.placeOrder(orderDetailsDTO,orderDTO,connection);
-
-            if(saveOrder){
+            if (saveOrder) {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
-            }else{
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to save");
+            } else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to save order");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
         }

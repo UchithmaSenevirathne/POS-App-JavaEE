@@ -10,8 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class OrderEntity {
-    private String id;
+    private String oId;
     private String date;
-    private Double total;
-    private List<OrderDetailsEntity> orderDetailsEntities;
+    private double total;
 }
