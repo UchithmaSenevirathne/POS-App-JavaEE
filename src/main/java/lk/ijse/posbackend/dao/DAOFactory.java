@@ -2,6 +2,7 @@ package lk.ijse.posbackend.dao;
 
 import lk.ijse.posbackend.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.posbackend.dao.custom.impl.ItemDAOImpl;
+import lk.ijse.posbackend.dao.custom.impl.PlaceOrderDAOImpl;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -13,7 +14,7 @@ public class DAOFactory {
     }
 
     public enum DAOTypes{
-        CUSTOMER,ITEM
+        CUSTOMER,ITEM,PLACEORDER
     }
 
     public SuperDAO getDAO(DAOTypes daoTypes){
@@ -22,6 +23,8 @@ public class DAOFactory {
                 return new CustomerDAOImpl();
             case ITEM:
                 return new ItemDAOImpl();
+            case PLACEORDER:
+                return new PlaceOrderDAOImpl();
             default:
                 return null;
         }
