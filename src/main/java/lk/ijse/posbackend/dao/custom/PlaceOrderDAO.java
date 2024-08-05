@@ -5,6 +5,6 @@ import lk.ijse.posbackend.entity.OrderDetailsEntity;
 import lk.ijse.posbackend.entity.OrderEntity;
 
 public interface PlaceOrderDAO extends SuperDAO {
-    void saveOrder(OrderEntity orderEntity);
-    void saveOrderDetails(OrderDetailsEntity orderDetailsEntity);
+    boolean saveOrder(OrderEntity orderEntity);
+    boolean saveOrderDetails(OrderDetailsEntity orderDetailsEntity);
 }
