@@ -8,13 +8,14 @@ import lk.ijse.posbackend.dto.OrderDetailsDTO;
 import lk.ijse.posbackend.entity.OrderDetailsEntity;
 import lk.ijse.posbackend.entity.OrderEntity;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
     PlaceOrderDAO placeOrderDAO = (PlaceOrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.PLACEORDER);
     @Override
-    public boolean placeOrder(OrderDetailsDTO orderDetailsDTO, OrderDTO orderDTO) {
+    public boolean placeOrder(OrderDetailsDTO orderDetailsDTO, OrderDTO orderDTO, Connection connection) {
         List<OrderDetailsEntity> orderDetailsEntities = new ArrayList<>();
         for (OrderDetailsDTO dto : orderDTO.getOrderDetailsDTOS()){
             orderDetailsEntities.add(new OrderDetailsEntity(dto.getItemCode(),
@@ -25,14 +26,15 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
         boolean saveOrder = placeOrderDAO.saveOrder(new OrderEntity(orderDTO.getId(),
                 orderDTO.getDate(),
                 orderDTO.getTotal(),
-                orderDetailsEntities)
+                orderDetailsEntities),
+                connection
         );
 
         if (saveOrder){
             boolean saveDetails = placeOrderDAO.saveOrderDetails(new OrderDetailsEntity(orderDetailsDTO.getItemCode(),
                     orderDetailsDTO.getQty(),
                     orderDetailsDTO.getUnitPrice(),
-                    orderDetailsDTO.getCustomerId()));
+                    orderDetailsDTO.getCustomerId()), connection);
 
             if (saveDetails){
                 return true;

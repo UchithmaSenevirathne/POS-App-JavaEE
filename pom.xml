@@ -63,6 +63,14 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.konghq/unirest-objectmapper-jackson -->
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-objectmapper-jackson</artifactId>
+            <version>4.2.9</version>
+        </dependency>
+
     </dependencies>
 
     <build>
