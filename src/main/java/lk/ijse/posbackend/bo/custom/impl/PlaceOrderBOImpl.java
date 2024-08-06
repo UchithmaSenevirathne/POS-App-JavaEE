@@ -58,7 +58,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public List<OrderDetailsDTO> getAllOrders(Connection connection) {
+    public List<OrderDetailsDTO> getAllOrders(Connection connection) throws SQLException {
         List<OrderDetailsDTO> orderDTOS = new ArrayList<>();
         List<OrderDetailsEntity> orderEntities = placeOrderDAO.getAllOrders(connection);
 

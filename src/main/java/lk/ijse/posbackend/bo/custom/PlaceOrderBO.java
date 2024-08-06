@@ -11,5 +11,5 @@ import java.util.List;
 public interface PlaceOrderBO extends SuperBO {
     boolean placeOrder(OrderDTO orderDTO, Connection connection) throws Exception;
 
-    List<OrderDetailsDTO> getAllOrders(Connection connection);
+    List<OrderDetailsDTO> getAllOrders(Connection connection) throws SQLException;
 }
