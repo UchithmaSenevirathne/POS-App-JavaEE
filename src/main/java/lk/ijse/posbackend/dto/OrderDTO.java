@@ -19,6 +19,9 @@ public class OrderDTO {
     @JsonProperty("total")
     private double total;
 
+    @JsonProperty("total")
+    private String customerId;
+
     @JsonProperty("orderDetails")
     private List<OrderDetailsDTO> orderDetails;
 }
