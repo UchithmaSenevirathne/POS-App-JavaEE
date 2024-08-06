@@ -56,4 +56,16 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             throw e;
         }
     }
+
+    @Override
+    public List<OrderDetailsDTO> getAllOrders(Connection connection) {
+        List<OrderDetailsDTO> orderDTOS = new ArrayList<>();
+        List<OrderDetailsEntity> orderEntities = placeOrderDAO.getAllOrders(connection);
+
+        for (OrderDetailsEntity entity : orderEntities){
+            orderDTOS.add(new OrderDetailsDTO(entity.getItemId(), entity.getItemName(), entity.getItemDescription(), entity.getQty(), entity.getUnitPrice(), entity.getTotal()));
+        }
+
+        return orderDTOS;
+    }
 }

@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean save(Connection connection, ItemEntity entity) throws SQLException {
@@ -22,30 +21,20 @@ public class ItemDAOImpl implements ItemDAO {
                 entity.getUnit_price()
         );
     }
-
     @Override
     public List<ItemEntity> getAll(Connection connection) throws SQLException {
         List<ItemEntity> items = new ArrayList<>();
-
         ResultSet resultSet = SQLUtil.execute(connection,"SELECT * FROM item");
-
         while (resultSet.next()){
             String item_id = resultSet.getString(1);
             String item_name = resultSet.getString(2);
             String item_desc = resultSet.getString(3);
             Double item_up = resultSet.getDouble(4);
-
             var entity = new ItemEntity(item_id, item_name, item_desc, item_up);
             items.add(entity);
         }
         return items;
     }
-
-    @Override
-    public ItemEntity search(Connection connection, String id) throws SQLException {
-        return null;
-    }
-
     @Override
     public boolean update(Connection connection, ItemEntity entity) throws SQLException {
         return SQLUtil.execute(connection,
@@ -55,12 +44,9 @@ public class ItemDAOImpl implements ItemDAO {
                 entity.getUnit_price(),
                 entity.getId());
     }
-
     @Override
     public boolean delete(Connection connection, String id) throws SQLException {
-        System.out.println("dao.........."+id);
         return SQLUtil.execute(connection,
-                "DELETE FROM item WHERE id = ?",
-                id);
+                "DELETE FROM item WHERE id = ?", id);
     }
 }

@@ -19,7 +19,7 @@ public class OrderDTO {
     @JsonProperty("total")
     private double total;
 
-    @JsonProperty("total")
+    @JsonProperty("customerId")
     private String customerId;
 
     @JsonProperty("orderDetails")

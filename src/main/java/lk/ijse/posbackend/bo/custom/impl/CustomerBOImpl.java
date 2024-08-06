@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
-
     CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
     @Override
     public boolean updateCustomer(CutomerDTO dto, Connection connection) throws SQLException {
@@ -22,7 +21,6 @@ public class CustomerBOImpl implements CustomerBO {
                 dto.getEmail(),
                 dto.getContact()));
     }
-
     @Override
     public boolean saveCustomer(CutomerDTO dto, Connection connection) throws SQLException {
         return customerDAO.save(connection,new CustomerEntity(dto.getId(),
@@ -31,7 +29,6 @@ public class CustomerBOImpl implements CustomerBO {
                 dto.getEmail(),
                 dto.getContact()));
     }
-
     @Override
     public List<CutomerDTO> getAllCustomers(Connection connection) throws SQLException {
         List<CustomerEntity> customerEntities = customerDAO.getAll(connection);
@@ -46,11 +43,9 @@ public class CustomerBOImpl implements CustomerBO {
         }
         return cutomerDTOS;
     }
-
     @Override
     public boolean deleteCustomer(String id, Connection connection) throws SQLException {
         System.out.println("bo.........."+id);
-
         return customerDAO.delete(connection, id);
     }
 }

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.posbackend.bo.BOFactory;
 import lk.ijse.posbackend.bo.custom.PlaceOrderBO;
 import lk.ijse.posbackend.dto.OrderDTO;
+import lk.ijse.posbackend.dto.OrderDetailsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/placeOrder", loadOnStartup = 2)
 public class PlaceOrder extends HttpServlet {
@@ -59,6 +61,21 @@ public class PlaceOrder extends HttpServlet {
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json");
+        try {
+            List<OrderDetailsDTO> orders = placeOrderBO.getAllOrders(connection);
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonResponse = mapper.writeValueAsString(orders);
+            resp.getWriter().write(jsonResponse);
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            logger.error("Error fetching orders", e);
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to fetch orders");
         }
     }
 }

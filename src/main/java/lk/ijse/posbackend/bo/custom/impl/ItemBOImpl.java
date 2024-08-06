@@ -50,7 +50,6 @@ public class ItemBOImpl implements ItemBO {
     @Override
     public boolean deleteItem(String id, Connection connection) throws SQLException {
         System.out.println("bo.........."+id);
-
         return itemDAO.delete(connection, id);
     }
 }
