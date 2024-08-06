@@ -24,6 +24,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             order.setOId(orderDTO.getOId());
             order.setDate(orderDTO.getDate());
             order.setTotal(orderDTO.getTotal());
+            order.setCustomerId(orderDTO.getCustomerId());
 
             boolean orderSaved = placeOrderDAO.saveOrder(order, connection);
             if (!orderSaved) {
@@ -35,9 +36,11 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             for (OrderDetailsDTO detailsDTO : orderDetailsList) {
                 OrderDetailsEntity orderDetails = new OrderDetailsEntity();
                 orderDetails.setItemId(detailsDTO.getItemId());
+                orderDetails.setItemName(detailsDTO.getItemName());
+                orderDetails.setItemDescription(detailsDTO.getItemDescription());
                 orderDetails.setQty(detailsDTO.getQty());
                 orderDetails.setUnitPrice(detailsDTO.getUnitPrice());
-                orderDetails.setCustomerId(detailsDTO.getCustomerId());
+                orderDetails.setTotal(detailsDTO.getTotal());
 
                 boolean orderDetailsSaved = placeOrderDAO.saveOrderDetails(orderDetails, connection);
                 if (!orderDetailsSaved) {
