@@ -45,7 +45,7 @@ using JavaEE, and the frontend is developed with HTML, CSS, and JavaScript.</p>
 </ul>
 
 <h2>Clone the repository</h2>
-<p>git clone</p><a>https://github.com/UchithmaSenevirathne/POS-App-JavaEE.git</a>
+<p>git clone</p><a href="https://github.com/UchithmaSenevirathne/POS-App-JavaEE.git">https://github.com/UchithmaSenevirathne/POS-App-JavaEE.git</a>
 
 <h2>API Endpoints</h2>
 <h3>Customer Endpoints</h3>
