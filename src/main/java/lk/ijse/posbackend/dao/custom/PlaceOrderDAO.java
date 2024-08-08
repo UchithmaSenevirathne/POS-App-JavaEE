@@ -11,6 +11,5 @@ import java.util.List;
 public interface PlaceOrderDAO extends SuperDAO {
     boolean saveOrder(OrderEntity order, Connection connection) throws SQLException;
     boolean saveOrderDetails(OrderDetailsEntity orderDetails, Connection connection) throws SQLException;
-
     List<OrderDetailsEntity> getAllOrders(Connection connection) throws SQLException;
 }
