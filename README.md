@@ -1,18 +1,15 @@
 <h1>POS System</h1>
-<hr/>
 
 <h2>Backend API</h2>
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-<hr/>
 
 <h2>Introduction</h2>
 <p style="font-size: 16px; font-weight: 100; line-height: 1.5">This is a Point of Sale (POS) system that allows for the
 management of customers and items, placing orders, and viewing order details. The backend is built
 using JavaEE, and the frontend is developed with HTML, CSS, and JavaScript.</p>
-<hr/>
 
 <h2>Features</h2>
 <ol>
@@ -33,14 +30,12 @@ using JavaEE, and the frontend is developed with HTML, CSS, and JavaScript.</p>
             <p style="font-weight: lighter">Functionality to view all existing orders.</p>
     </li>
 </ol>
-<hr/>
 
 <h2>Technologies Used</h2>
 <ul>
     <li>Backend: JavaEE</li>
     <li>Database: MySQL</li>
 </ul>
-<hr/>
 
 <h2>Installation</h2>
 <h3>Prerequisites</h3>
@@ -48,11 +43,9 @@ using JavaEE, and the frontend is developed with HTML, CSS, and JavaScript.</p>
     <li>Java 17 or later</li>
     <li>Maven</li>
 </ul>
-<hr/>
 
 <h2>Clone the repository</h2>
 <p>git clone <a>https://github.com/UchithmaSenevirathne/POS-App-JavaEE.git</a></p>
-<hr/>
 
 <h2>API Endpoints</h2>
 <h3>Customer Endpoints</h3>
@@ -76,7 +69,6 @@ using JavaEE, and the frontend is developed with HTML, CSS, and JavaScript.</p>
     <li>GET /order: Retrieve all order.</li>
     <li>POST /order: Create a new order.</li>
 </ul>
-<hr/>
 
 <h2>Usage</h2>
 <ol style="font-weight: bold">
@@ -105,13 +97,10 @@ using JavaEE, and the frontend is developed with HTML, CSS, and JavaScript.</p>
         </ul>
     </li>
 </ol>
-<hr/>
 
 <a href="https://documenter.getpostman.com/view/35385637/2sA3s1mqs3">API Documentation</a>
-<hr/>
 
 <a href="https://github.com/UchithmaSenevirathne/POS-App-JavaEE/blob/backend/MIT%20License.md">MIT License</a>
 
-<hr/>
 
 <p>Copyright - 2024 - Present | Uchithma Senevirathne | All Rights Reserved</p>
